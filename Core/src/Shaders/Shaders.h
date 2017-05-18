@@ -22,13 +22,17 @@
 #include <pangolin/gl/glsl.h>
 #include <memory>
 #include "../Utils/Parse.h"
+#include "../static_glew_init.hpp"
 #include "Uniform.h"
 
 class Shader : public pangolin::GlSlProgram
 {
     public:
         Shader()
-        {}
+        {
+			// glewInit
+			staticGlewInit();
+		}
 
         GLuint programId()
         {
@@ -102,9 +106,9 @@ static inline std::shared_ptr<Shader> loadProgramFromFile(const std::string& ver
 {
     std::shared_ptr<Shader> program = std::make_shared<Shader>();
 
-    program->AddShaderFromFile(pangolin::GlSlVertexShader, Parse::get().shaderDir() + "/" + vertex_shader_file, {}, {Parse::get().shaderDir()});
-    program->AddShaderFromFile(pangolin::GlSlGeometryShader, Parse::get().shaderDir() + "/" + geometry_shader_file, {}, {Parse::get().shaderDir()});
-    program->AddShaderFromFile(pangolin::GlSlFragmentShader, Parse::get().shaderDir() + "/" + fragment_shader_file, {}, {Parse::get().shaderDir()});
+    program->AddShaderFromFile(pangolin::GlSlVertexShader, Parse::get().shaderDir() + "\\" + vertex_shader_file, {}, {Parse::get().shaderDir()});
+    program->AddShaderFromFile(pangolin::GlSlGeometryShader, Parse::get().shaderDir() + "\\" + geometry_shader_file, {}, {Parse::get().shaderDir()});
+    program->AddShaderFromFile(pangolin::GlSlFragmentShader, Parse::get().shaderDir() + "\\" + fragment_shader_file, {}, {Parse::get().shaderDir()});
     program->Link();
 
     return program;

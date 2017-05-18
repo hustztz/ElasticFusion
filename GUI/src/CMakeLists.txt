@@ -18,8 +18,8 @@ if(WIN32)
   find_package(JPEG REQUIRED)
 endif()
 
-find_package(LAPACK REQUIRED)
-find_package(BLAS REQUIRED)
+# find_package(LAPACK REQUIRED)
+# find_package(BLAS REQUIRED)
 find_package(ZLIB REQUIRED)
 find_package(Pangolin 0.1 REQUIRED)
 find_package(CUDA REQUIRED)
@@ -88,7 +88,6 @@ target_link_libraries(ElasticFusion
                       ${EFUSION_LIBRARY}
                       ${OPENNI2_LIBRARY}
                       ${SUITESPARSE_LIBRARIES}
-                      ${BLAS_LIBRARIES}
                       ${LAPACK_LIBRARIES}
 )
 
