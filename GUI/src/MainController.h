@@ -21,11 +21,13 @@
 
 #include "Tools/GUI.h"
 #include "Tools/GroundTruthOdometry.h"
-#include "Tools/RawLogReader.h"
-#include "Tools/LiveLogReader.h"
 
 #ifndef MAINCONTROLLER_H_
 #define MAINCONTROLLER_H_
+
+class NuiRGBDDeviceController;
+class NuiFrameCacheImpl;
+class NuiVisualFrameSaveManager;
 
 class MainController
 {
@@ -36,15 +38,17 @@ class MainController
         void launch();
 
     private:
-        void run();
+        void reset();
+		void followPose();
+		void handleGuiChanged();
+		void writeGuiStatus();
+		void readGuiStatus();
 
         void loadCalibration(const std::string & filename);
 
-        bool good;
         ElasticFusion * eFusion;
         GUI * gui;
         GroundTruthOdometry * groundTruthOdometry;
-        LogReader * logReader;
 
         bool iclnuim;
         std::string logFile;
@@ -59,25 +63,24 @@ class MainController
               fernThresh;
 
         int timeDelta,
-            icpCountThresh,
-            start,
-            end;
+            icpCountThresh;
 
         bool fillIn,
              openLoop,
              reloc,
-             frameskip,
-             quiet,
              fastOdom,
              so3,
-             rewind,
              frameToFrameRGB;
 
-        int framesToSkip;
+		bool m_bDeviceSwitched;
         bool streaming;
-        bool resetButton;
 
         Resize * resizeStream;
+
+
+		NuiRGBDDeviceController*	m_pDevice;
+		NuiVisualFrameSaveManager*	m_pFrameToFile;
+		NuiFrameCacheImpl*			m_pCache;
 };
 
 #endif /* MAINCONTROLLER_H_ */

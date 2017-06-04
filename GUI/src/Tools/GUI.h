@@ -32,7 +32,7 @@
 class GUI
 {
     public:
-        GUI(bool liveCap, bool showcaseMode)
+        GUI(bool showcaseMode)
          : showcaseMode(showcaseMode)
         {
             width = 1280;
@@ -111,20 +111,13 @@ class GUI
                                           .AddDisplay(*inPlot);
             }
 
+			fileToFrame = new pangolin::Var<bool>("ui.FileToFrame", false, true);
+			frameToFile = new pangolin::Var<bool>("ui.FrameToFile", false, true);
             pause = new pangolin::Var<bool>("ui.Pause", false, true);
+			deviceOnOff = new pangolin::Var<bool>("ui.DeviceOn/Off", false, false);
             step = new pangolin::Var<bool>("ui.Step", false, false);
             save = new pangolin::Var<bool>("ui.Save", false, false);
             reset = new pangolin::Var<bool>("ui.Reset", false, false);
-            flipColors = new pangolin::Var<bool>("ui.Flip RGB", false, true);
-
-            if(liveCap)
-            {
-                autoSettings = new pangolin::Var<bool>("ui.Auto Settings", true, true);
-            }
-            else
-            {
-                autoSettings = 0;
-            }
 
             pyramid = new pangolin::Var<bool>("ui.Pyramid", true, true);
             so3 = new pangolin::Var<bool>("ui.SO(3)", true, true);
@@ -170,16 +163,14 @@ class GUI
 
         virtual ~GUI()
         {
+			delete deviceOnOff;
+			delete fileToFrame;
+			delete frameToFile;
             delete pause;
             delete reset;
             delete inPlot;
             delete resPlot;
 
-            if(autoSettings)
-            {
-                delete autoSettings;
-
-            }
             delete step;
             delete save;
             delete trackInliers;
@@ -205,7 +196,6 @@ class GUI
             delete drawRawCloud;
             delete totalPoints;
             delete frameToFrameRGB;
-            delete flipColors;
             delete drawFilteredCloud;
             delete drawNormals;
             delete drawColors;
@@ -379,11 +369,13 @@ class GUI
         int height;
         int panel;
 
-        pangolin::Var<bool> * pause,
+        pangolin::Var<bool> *fileToFrame,
+							* frameToFile,
+							* pause,
+							* deviceOnOff,
                             * step,
                             * save,
                             * reset,
-                            * flipColors,
                             * rgbOnly,
                             * pyramid,
                             * so3,
@@ -393,7 +385,6 @@ class GUI
                             * drawRawCloud,
                             * drawFilteredCloud,
                             * drawNormals,
-                            * autoSettings,
                             * drawDefGraph,
                             * drawColors,
                             * drawFxaa,

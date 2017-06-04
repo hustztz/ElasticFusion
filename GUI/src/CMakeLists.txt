@@ -26,6 +26,8 @@ find_package(CUDA REQUIRED)
 find_package(OpenNI2 REQUIRED)
 find_package(efusion REQUIRED)
 find_package(SuiteSparse REQUIRED)
+find_package(log4cplus REQUIRED)
+find_package(Boost COMPONENTS timer thread system REQUIRED)
 
 if(WIN32)
   find_package(RealSense QUIET)
@@ -44,6 +46,9 @@ include_directories(${Pangolin_INCLUDE_DIRS})
 include_directories(${CUDA_INCLUDE_DIRS})
 include_directories(${EFUSION_INCLUDE_DIR})
 include_directories(${OPENNI2_INCLUDE_DIR})
+include_directories(${Boost_INCLUDE_DIR})
+include_directories(${log4cplus_DIR}/../../../include)
+include_directories(../../../NatureUserInterfaceStudio/src)
 
 if(WITH_REALSENSE)
   include_directories(${REALSENSE_INCLUDE_DIR})
@@ -60,7 +65,6 @@ if(WIN32)
 endif()
 
 if(WIN32)
-  add_definitions(-Dlinux=0)
   add_definitions(-DWIN32_LEAN_AND_MEAN)
   add_definitions(-DNOMINMAX)
   set(ADDITIONAL_CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
@@ -79,8 +83,10 @@ add_executable(ElasticFusion
                ${tools_hdrs}
 )
 
+set(D_SUFF	D)
 target_link_libraries(ElasticFusion
 					  ${EXTRA_WINDOWS_LIBS}
+			${Boost_LIBRARIES}
                       ${ZLIB_LIBRARY}
                       ${Pangolin_LIBRARIES}
                       ${CUDA_LIBRARIES}
@@ -89,6 +95,16 @@ target_link_libraries(ElasticFusion
                       ${OPENNI2_LIBRARY}
                       ${SUITESPARSE_LIBRARIES}
                       ${LAPACK_LIBRARIES}
+			${Boost_LIBRARIES}
+			$ENV{KINECTSDK20_DIR}/lib/x64/Kinect20.lib
+			$ENV{KINECTSDK20_DIR}/lib/x64/Kinect20.Face.lib
+			$ENV{KINECTSDK20_DIR}/lib/x64/Kinect20.Fusion.lib
+			$ENV{KINECTSDK20_DIR}/lib/x64/Kinect20.VisualGestureBuilder.lib
+			${log4cplus_DIR}/../../log4cplusU${D_SUFF}.lib
+			../../../NatureUserInterfaceStudio/msvc14/src/Foundation/Debug/libFoundation
+			../../../NatureUserInterfaceStudio/msvc14/src/Shape/Debug/libShape
+			../../../NatureUserInterfaceStudio/msvc14/src/Frame/Debug/libFrame
+			../../../NatureUserInterfaceStudio/msvc14/src/DeviceManager/Debug/libDeviceManager
 )
 
 

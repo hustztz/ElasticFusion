@@ -4,3 +4,4 @@ deps/
 .cproject
 *.user
 msvc14/
+GUI/msvc14/
