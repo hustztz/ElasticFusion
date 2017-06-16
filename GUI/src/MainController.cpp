@@ -548,7 +548,7 @@ void MainController::launch()
 				}
 				if (eFusion)
 				{
-					BGRQUAD* pColorBuffer = pVisualFrame->getColorBuffer();
+					/*BGRQUAD* pColorBuffer = pVisualFrame->getColorBuffer();
 					unsigned char * rgbBuffer = NULL;
 					if (pColorBuffer)
 					{
@@ -560,10 +560,10 @@ void MainController::launch()
 							rgbBuffer[3 * i+1] = pColorBuffer[i].rgbGreen;
 							rgbBuffer[3 * i+2] = pColorBuffer[i].rgbBlue;
 						}
-					}
-					eFusion->processFrame(rgbBuffer, pVisualFrame->getDepthBuffer(), pVisualFrame->getTimeStamp(), currentPose, 1.0f);
-					if (rgbBuffer)
-						delete[] rgbBuffer;
+					}*/
+					eFusion->processFrame((const unsigned char *)pVisualFrame->getColorBuffer(), pVisualFrame->getDepthBuffer(), pVisualFrame->getTimeStamp(), currentPose, 1.0f);
+					/*if (rgbBuffer)
+						delete[] rgbBuffer;*/
 				}
 
 				if (currentPose)

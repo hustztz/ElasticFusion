@@ -263,7 +263,7 @@ void ElasticFusion::processFrame(const unsigned char * rgb,
     TICK("Run");
 
     textures[GPUTexture::DEPTH_RAW]->texture->Upload(depth, GL_LUMINANCE_INTEGER_EXT, GL_UNSIGNED_SHORT);
-    textures[GPUTexture::RGB]->texture->Upload(rgb, GL_RGB, GL_UNSIGNED_BYTE);
+    textures[GPUTexture::RGB]->texture->Upload(rgb, GL_BGRA, GL_UNSIGNED_BYTE);
 
     TICK("Preprocess");
 
